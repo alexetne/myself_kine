@@ -1,0 +1,13 @@
+# Bootstrap owner. Replace with GitHub teams before branch protection is enabled,
+# for example @organisation/platform, @organisation/security and
+# @organisation/clinical-reviewers.
+* @ziczouczac
+
+/.github/ @ziczouczac
+/infra/ @ziczouczac
+**/migrations/ @ziczouczac
+/docs/security/ @ziczouczac
+/docs/clinical/ @ziczouczac
+/brief-projet.md @ziczouczac
+/fonctionnalite.md @ziczouczac
+

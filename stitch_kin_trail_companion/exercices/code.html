@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Exercices - Articulations &amp; Mobilité</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#baeceb",
+                        "secondary": "#5b6300",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#404848",
+                        "on-primary-container": "#8bbdbc",
+                        "surface-container-highest": "#e2e3e1",
+                        "primary-fixed-dim": "#9ed0cf",
+                        "tertiary-fixed": "#ffdcc5",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed": "#301400",
+                        "outline": "#707978",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c0c8c7",
+                        "secondary-fixed": "#dfec60",
+                        "error-container": "#ffdad6",
+                        "surface-container-highest": "#e2e3e1",
+                        "primary-container": "#1a4d4d",
+                        "surface-bright": "#f9f9f7",
+                        "surface-tint": "#366666",
+                        "on-secondary-fixed-variant": "#444b00",
+                        "on-background": "#1a1c1b",
+                        "surface-container": "#eeeeec",
+                        "inverse-on-surface": "#f1f1ef",
+                        "surface-container-low": "#f4f4f2",
+                        "background": "#f9f9f7",
+                        "on-secondary-container": "#616a00",
+                        "surface": "#f9f9f7",
+                        "primary": "#003636",
+                        "on-primary-fixed": "#002020",
+                        "secondary-fixed-dim": "#c2cf47",
+                        "on-tertiary-container": "#ff9b4c",
+                        "tertiary-container": "#6f3600",
+                        "secondary-container": "#dfec60",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#1a1c1b",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb783",
+                        "on-primary-fixed-variant": "#1b4e4e",
+                        "on-tertiary-fixed-variant": "#713700",
+                        "inverse-primary": "#9ed0cf",
+                        "on-secondary-fixed": "#1a1d00",
+                        "tertiary": "#4d2400",
+                        "inverse-surface": "#2f3130",
+                        "surface-dim": "#dadad8",
+                        "surface-variant": "#e2e3e1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "stack-lg": "40px",
+                        "stack-md": "24px",
+                        "stack-sm": "12px",
+                        "container-padding": "20px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "title-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "label-sm": ["JetBrains Mono"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #f9f9f7;
+            color: #1a1c1b;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .active-category {
+            background-color: #1a4d4d;
+            color: #ffffff;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md pb-24">
+<!-- Top AppBar (from JSON Guidance) -->
+<header class="sticky top-0 w-full z-40 flex justify-between items-center px-gutter py-stack-sm bg-surface dark:bg-inverse-surface">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-fixed">
+<img class="w-full h-full object-cover" data-alt="A professional portrait of a fitness coach in a bright, modern studio with soft natural lighting. The style is clean and empathetic, featuring a subtle Alpine Forest teal color palette in the background. The lighting is soft and airy, conveying trust and resilience." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBccjaewKCmVJuLrBgvm9bcqFK-SC7KQjPljK8Kod226psDk4YqCZB156zkwXR-7pkh-nbgD0ME7B7mivLDFjNdtia-X4mnEmU4H1ZMqmyULlyYxQPviiZc2adjxA2D65UizkjaQj02yBTZbKMGvIwl-gdsjmrzJqBPVHv8XwCQzkr0Db87RlIbAR3uNaQ64mdnnPoyuEhy1lHwipdNLK4L60oOydTiEuIdx37W9dHluGwbIRKtQ9cD"/>
+</div>
+<h1 class="font-title-md text-title-md text-primary">Exercices</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center text-primary transition-opacity duration-200 active:scale-98">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="px-gutter">
+<!-- Search Bar -->
+<section class="mt-stack-sm mb-stack-md">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full h-12 pl-12 pr-4 bg-surface-container rounded-xl border-none focus:ring-2 focus:ring-primary-container text-body-md transition-all" placeholder="Rechercher un exercice..." type="text"/>
+</div>
+</section>
+<!-- Category Pills (Horizontal Scroll) -->
+<section class="mb-stack-md -mx-gutter overflow-x-auto custom-scrollbar flex gap-3 px-gutter">
+<button class="active-category whitespace-nowrap px-6 py-2.5 rounded-full font-title-md text-sm transition-all shadow-sm">Tout</button>
+<button class="bg-surface-container-low text-on-surface-variant whitespace-nowrap px-6 py-2.5 rounded-full font-title-md text-sm transition-all hover:bg-surface-container-high">Mobilité</button>
+<button class="bg-surface-container-low text-on-surface-variant whitespace-nowrap px-6 py-2.5 rounded-full font-title-md text-sm transition-all hover:bg-surface-container-high">Force</button>
+<button class="bg-surface-container-low text-on-surface-variant whitespace-nowrap px-6 py-2.5 rounded-full font-title-md text-sm transition-all hover:bg-surface-container-high">Prévention</button>
+<button class="bg-surface-container-low text-on-surface-variant whitespace-nowrap px-6 py-2.5 rounded-full font-title-md text-sm transition-all hover:bg-surface-container-high">Articulations</button>
+</section>
+<!-- Featured Section: Articulations Focus (Asymmetric Layout) -->
+<section class="mb-stack-lg">
+<div class="flex justify-between items-end mb-4">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">Santé des Articulations</h2>
+<a class="text-primary font-bold text-sm" href="#">Voir tout</a>
+</div>
+<div class="grid grid-cols-12 gap-4">
+<!-- Large Featured Card -->
+<div class="col-span-12 relative h-56 rounded-2xl overflow-hidden shadow-sm group">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent z-10"></div>
+<img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A focused close-up of a person performing a controlled knee mobility exercise in a bright, minimalist gym with natural light streaming through large windows. The aesthetic is restorative and calm, utilizing a palette of soft teals and warm wood tones. High-quality photographic style emphasizing biomechanical precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3RekojP5fJIWTdILLmuUktyt1zl3QGMg4Ff6FWhGzXrx5XICjbJYYBPNcZ7Y3qP5JE2cKp4bDvBGZpZdgL6FWB3UFYg8Lpo-f-aTBzUM988tyvcntDBMN8Rqk91AHU7ksCvVPnhDXpnPEIZHTKra6h9o8LY-_Gaq60VYO8YuToSlhfiMAphnEAOkfJFZ_29Fn6e8J-33DFSOASS62Ah6kj1YPw7g4zB7Q1SYIe07uvalgN6Y5YLfq"/>
+<div class="absolute bottom-4 left-4 z-20 text-white">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase mb-2 inline-block">Populaire</span>
+<h3 class="font-title-md text-xl mb-1">Rituel Genoux &amp; Chevilles</h3>
+<div class="flex items-center gap-3 opacity-90 text-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 12 min</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">bolt</span> Débutant</span>
+</div>
+</div>
+</div>
+<!-- Secondary Split Cards -->
+<div class="col-span-6 bg-white p-4 rounded-2xl shadow-[0_4px_20px_0_rgba(26,77,77,0.04)] border border-surface-container">
+<div class="w-full aspect-video rounded-lg mb-3 overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Dynamic shot of a runner doing shoulder rotations in an outdoor alpine setting at dawn. The lighting is cool-toned and fresh, emphasizing movement and resilience. The visual style is tactile and high-contrast, focusing on restorative health." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOVbB3DKxyh8bn9PrCeFldky9DDvC7cSXt8WBHJFvi20bBy1pD2qincUaL9fy2Y-mJ2DaSW8xmA1Zx3xNXSOjKVt_DQW7m-ENXWFnBIggMDtG0dMvPCdMtJeGIO4_MZTBzIg-_D0P98EPOn34bMqx2SaM4X7jiAma3vZ_0odxlGbURRWYg5KT9mvJlqJnEffVlmEHUihyBBzugBQ8USWcxHjDoUPb3ByX7VSXOJXiBRbbWr7hKlB72"/>
+</div>
+<h4 class="font-title-md text-sm text-primary leading-tight">Épaules &amp; Omoplates</h4>
+<p class="text-xs text-on-surface-variant mt-1">8 min • Mobilité</p>
+</div>
+<div class="col-span-6 bg-white p-4 rounded-2xl shadow-[0_4px_20px_0_rgba(26,77,77,0.04)] border border-surface-container">
+<div class="w-full aspect-video rounded-lg mb-3 overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A person performing a deep hip flexor stretch on a high-quality yoga mat. The environment is a clean, white-walled room with organic plant accents. The lighting is soft and shadowless, creating a peaceful, clinical yet human atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYOaRDzxOdJJ72zldLHZcn2z8fUgoQVVa-obmkwvfUD_IFhKzTemkD0b_Inx8I_o45tRl7s_GIAX_YTte8wkiBNm-eqv1yEDq9Jc59_eGYdavgcJT4UEwqMUddAGFK6ZWksNOIRN3XeTgkxLlDjTAqVtEFEpKEXS9SXh550ayvRCwcQU-2skpK25_zw5ZBCXh_aOYO07BisQFEoLc4YbMLHQfGIyOnmSZ4Plw8cxFbcgTivJ_J60iV"/>
+</div>
+<h4 class="font-title-md text-sm text-primary leading-tight">Ouverture de Hanche</h4>
+<p class="text-xs text-on-surface-variant mt-1">15 min • Prévention</p>
+</div>
+</div>
+</section>
+<!-- Library Grid (Bento Style Layout) -->
+<section class="mb-8">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-4">Bibliothèque Complète</h2>
+<div class="grid grid-cols-1 gap-4">
+<!-- Exercise Row Item -->
+<div class="flex items-center gap-4 bg-white p-3 rounded-2xl shadow-[0_4px_20px_0_rgba(26,77,77,0.04)] border border-surface-container hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A detailed instructional view of a calf raise exercise, highlighting the muscle activation. The background is a clean, neutral fitness studio. The lighting is professional and clear, following the modern tactile minimalist style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJSNDoNQDgnodAy1sT46HMWhiilOTldRVTOkWkvGSd_FLDxcvXOdaxBKtyQtkEZsfgO2eEcWzPY7NnLRnIAKNvkDrYB__oIqwQMo93m5FporH874Bx9y6P4AsFkcojeU1vUQRI5jDpRSQmuN1hmUXF27Z0kNcHqVrn8IGWdlFWg19IN0NMJ2IrsHAYuTSbJlBxhdqdab47fHOFUs3Hvue2h8dZaN2IZCpVdjslZbnC5KniARDhT8vp"/>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-title-md text-primary">Renforcement Cheville</h4>
+<p class="text-sm text-on-surface-variant">Catégorie: Prévention</p>
+</div>
+<span class="text-primary-container"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span></span>
+</div>
+<div class="mt-2 flex items-center gap-3">
+<span class="bg-surface-container-high px-2 py-0.5 rounded text-[10px] font-bold text-on-surface-variant">5-10 MIN</span>
+<span class="bg-surface-container-high px-2 py-0.5 rounded text-[10px] font-bold text-on-surface-variant">MOYEN</span>
+</div>
+</div>
+</div>
+<!-- Exercise Row Item -->
+<div class="flex items-center gap-4 bg-white p-3 rounded-2xl shadow-[0_4px_20px_0_rgba(26,77,77,0.04)] border border-surface-container hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A person performing spinal cat-cow stretches. The visual focus is on the curvature of the spine. The background is minimalist and bright, using the primary teal accent color in subtle ways." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfSda-adgvgsIhARhHQwYPX6FLgrOoLnB1_V9k1ENNTCvm_fQqlYksplyxLITJfk4hnJYoZG1Uj6H7nwXaFZOQm9czU_bB-rLn8WSI-gZ8oE1IzFPXGFxfbqeg7Kp4bw71ArpNZENYK4y-ttn9t8shC0mRk-RrAHTMkqwst6pJu8R32JHPYdrMg_ympWnKCorBZKoIvA-PxcLTGx534_Aw4oQ49fNht4cX5obIxUC96e3rNL53INeY"/>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-title-md text-primary">Décompression Dorsale</h4>
+<p class="text-sm text-on-surface-variant">Catégorie: Mobilité</p>
+</div>
+<span class="text-on-surface-variant opacity-30"><span class="material-symbols-outlined">favorite</span></span>
+</div>
+<div class="mt-2 flex items-center gap-3">
+<span class="bg-surface-container-high px-2 py-0.5 rounded text-[10px] font-bold text-on-surface-variant">6 MIN</span>
+<span class="bg-surface-container-high px-2 py-0.5 rounded text-[10px] font-bold text-on-surface-variant">FACILE</span>
+</div>
+</div>
+</div>
+<!-- Exercise Row Item -->
+<div class="flex items-center gap-4 bg-white p-3 rounded-2xl shadow-[0_4px_20px_0_rgba(26,77,77,0.04)] border border-surface-container hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A muscular model demonstrating a controlled single-leg deadlift for balance and joint stability. The background is a crisp, high-end private training space. The aesthetic is athletic and professional, leaning into the grounded brand personality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlM0xvqFvnvyiiBVfrwO_C5-_QvOFR-IsYe69desPVNAgWI9mVJqCrZ9BHw3YlJyhQlT6YoSpbf_Dx5TEk2huewsel3uIYWqAJAxG3V0FcCECNLNQFYwMGWdwFVOk0RoJlveIBBfYiQjKR5fkKGoz47JIya75wi1wN1eYJ4Uubznjam6IsJm2Yygy9Tjhu88-bnHAMPQCjfVLyMRFiFvWxtFN_MhqYimz5AtyihrK8MJMBoZZpSnXt"/>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-title-md text-primary">Stabilité Unilatérale</h4>
+<p class="text-sm text-on-surface-variant">Catégorie: Force</p>
+</div>
+<span class="text-on-surface-variant opacity-30"><span class="material-symbols-outlined">favorite</span></span>
+</div>
+<div class="mt-2 flex items-center gap-3">
+<span class="bg-surface-container-high px-2 py-0.5 rounded text-[10px] font-bold text-on-surface-variant">20 MIN</span>
+<span class="bg-surface-container-high px-2 py-0.5 rounded text-[10px] font-bold text-on-surface-variant">DIFFICILE</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar (from JSON Guidance) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter py-2 bg-surface dark:bg-inverse-surface shadow-[0_-4px_20px_0_rgba(26,77,77,0.04)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant opacity-70 transition-all duration-200 active:scale-95 hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-sm text-label-sm">Aujourd'hui</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant opacity-70 transition-all duration-200 active:scale-95 hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined">event_note</span>
+<span class="font-label-sm text-label-sm">Programme</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant opacity-70 transition-all duration-200 active:scale-95 hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined">trending_up</span>
+<span class="font-label-sm text-label-sm">Progression</span>
+</a>
+<!-- ACTIVE TAB: Exercices -->
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-4 py-1 transition-all duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">fitness_center</span>
+<span class="font-label-sm text-label-sm">Exercices</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant opacity-70 transition-all duration-200 active:scale-95 hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profil</span>
+</a>
+</nav>
+<!-- Micro-interaction for search focus -->
+<script>
+        const searchInput = document.querySelector('input[type="text"]');
+        const searchIcon = document.querySelector('.material-symbols-outlined[data-icon="search"]');
+        
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('scale-[1.02]');
+            searchInput.parentElement.classList.add('shadow-md');
+        });
+        
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('scale-[1.02]');
+            searchInput.parentElement.classList.remove('shadow-md');
+        });
+
+        // Simple pill selection logic
+        const pills = document.querySelectorAll('section button.whitespace-nowrap');
+        pills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                pills.forEach(p => {
+                    p.classList.remove('active-category', 'shadow-sm');
+                    p.classList.add('bg-surface-container-low', 'text-on-surface-variant');
+                });
+                pill.classList.add('active-category', 'shadow-sm');
+                pill.classList.remove('bg-surface-container-low', 'text-on-surface-variant');
+            });
+        });
+    </script>
+</body></html>

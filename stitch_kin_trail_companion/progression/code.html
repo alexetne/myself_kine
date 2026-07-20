@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Progression | Trail Recovery</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9f7;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .font-title-md { font-family: 'Hanken Grotesk', sans-serif; }
+        .font-headline-lg-mobile { font-family: 'Hanken Grotesk', sans-serif; }
+        .font-label-sm { font-family: 'JetBrains Mono', monospace; }
+        
+        .pulse-indicator {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.1; transform: scale(1.5); }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(26, 77, 77, 0.05);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#baeceb",
+                        "secondary": "#5b6300",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#404848",
+                        "on-primary-container": "#8bbdbc",
+                        "surface-container-highest": "#e2e3e1",
+                        "primary-fixed-dim": "#9ed0cf",
+                        "tertiary-fixed": "#ffdcc5",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed": "#301400",
+                        "outline": "#707978",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c0c8c7",
+                        "secondary-fixed": "#dfec60",
+                        "error-container": "#ffdad6",
+                        "surface-container-highest": "#e2e3e1",
+                        "primary-container": "#1a4d4d",
+                        "surface-bright": "#f9f9f7",
+                        "surface-tint": "#366666",
+                        "on-secondary-fixed-variant": "#444b00",
+                        "on-background": "#1a1c1b",
+                        "surface-container": "#eeeeec",
+                        "inverse-on-surface": "#f1f1ef",
+                        "surface-container-low": "#f4f4f2",
+                        "background": "#f9f9f7",
+                        "on-secondary-container": "#616a00",
+                        "surface": "#f9f9f7",
+                        "primary": "#003636",
+                        "on-primary-fixed": "#002020",
+                        "secondary-fixed-dim": "#c2cf47",
+                        "on-tertiary-container": "#ff9b4c",
+                        "tertiary-container": "#6f3600",
+                        "secondary-container": "#dfec60",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#1a1c1b",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb783",
+                        "on-primary-fixed-variant": "#1b4e4e",
+                        "on-tertiary-fixed-variant": "#713700",
+                        "inverse-primary": "#9ed0cf",
+                        "on-secondary-fixed": "#1a1d00",
+                        "tertiary": "#4d2400",
+                        "inverse-surface": "#2f3130",
+                        "surface-dim": "#dadad8",
+                        "surface-variant": "#e2e3e1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "stack-lg": "40px",
+                        "stack-md": "24px",
+                        "stack-sm": "12px",
+                        "container-padding": "20px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "title-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "label-sm": ["JetBrains Mono"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface pb-32">
+<!-- TopAppBar -->
+<header class="sticky top-0 w-full z-40 flex justify-between items-center px-gutter py-stack-sm bg-surface">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-fixed">
+<img class="w-full h-full object-cover" data-alt="A professional high-quality portrait of a focused outdoor athlete, softly lit by morning sun in a serene forest setting. The style is naturalistic and empathetic, with a shallow depth of field. The color palette features earthy greens and soft teals, consistent with the Alpine Forest brand aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuASbdkDwWEmuFnrP7Co_nAGlUmOigXM88qsy_7Q1_RDYm8CljilUdEovO0bF1TxJyPFVInfA5rkW4OsND11hMJt_cvgq4ck94TaykLdj7DPjr-PyNdNWpzNxneuHN8bHAV7TkQ1FhQylF5Ic1cFiQB7nS1jB8pvcdNov_j38ClknZmzfWmpC67rZTIi9CkLE0D7UuImNBhquatUl5hufHNyTRO5hPQEkcrPkIL-yhZC20Rm3Q7FVHSB"/>
+</div>
+<h1 class="font-title-md text-title-md text-primary">Progression</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-low text-on-surface-variant transition-opacity duration-200 active:scale-98 hover:opacity-80">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="px-gutter pt-stack-sm space-y-stack-lg">
+<!-- Consistency Hero Section -->
+<section class="space-y-stack-sm">
+<div class="flex flex-col space-y-2">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Régularité du mois</p>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">Le rythme est votre force.</h2>
+</div>
+<div class="glass-card rounded-xl p-5 shadow-[0_20px_40px_rgba(26,77,77,0.04)] relative overflow-hidden">
+<div class="absolute -top-12 -right-12 w-32 h-32 bg-secondary-container opacity-20 rounded-full blur-3xl"></div>
+<!-- Gentle Regularity Graph -->
+<div class="h-48 w-full flex items-end justify-between gap-1 mt-4">
+<!-- Graph Columns (Simulated for last 30 days) -->
+<script>
+                        const sessions = [2, 0, 3, 4, 1, 0, 2, 5, 4, 3, 2, 0, 4, 5, 3, 2, 1, 4, 3, 4, 5, 2, 3, 4, 5, 4, 5, 3, 4, 5];
+                        document.write(sessions.map((val, i) => `
+                            <div class="flex-1 flex flex-col items-center group">
+                                <div class="w-full rounded-t-full bg-secondary-container/30 transition-all duration-500 hover:bg-secondary-container" 
+                                     style="height: ${val * 18}%; ${i === sessions.length - 1 ? 'background-color: #dfec60;' : ''}">
+                                </div>
+                                ${i % 7 === 0 ? `<span class="mt-2 font-label-sm text-[10px] text-on-surface-variant">S${Math.floor(i/7)+1}</span>` : ''}
+                            </div>
+                        `).join(''));
+                    </script>
+</div>
+<div class="mt-6 flex items-center justify-between border-t border-outline-variant/30 pt-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="auto_awesome">auto_awesome</span>
+<p class="font-body-md text-body-md text-on-surface-variant">84% de sessions complétées</p>
+</div>
+<span class="font-label-sm text-label-sm text-secondary bg-secondary-container px-3 py-1 rounded-full">+12% vs Mars</span>
+</div>
+</div>
+</section>
+<!-- Feeling (Ressenti) History -->
+<section class="space-y-stack-sm">
+<h3 class="font-title-md text-title-md text-primary">Ressenti (Douleur & Confort)</h3>
+<div class="grid grid-cols-1 gap-stack-sm">
+<!-- Bento Card: Evolution Curve -->
+<div class="glass-card rounded-xl p-5 space-y-4">
+<div class="flex justify-between items-start">
+<div>
+<p class="font-body-md text-body-md text-on-surface-variant">Stabilité de la douleur</p>
+<p class="font-title-md text-title-md text-secondary">Amélioration constante</p>
+</div>
+<div class="p-2 bg-surface-container rounded-lg">
+<span class="material-symbols-outlined text-primary" data-icon="legend_toggle">legend_toggle</span>
+</div>
+</div>
+<!-- Line Graph Mockup -->
+<div class="relative h-24 w-full flex items-center">
+<svg class="w-full h-full drop-shadow-sm" viewbox="0 0 400 100">
+<path d="M0,80 Q50,75 100,60 T200,45 T300,30 T400,20" fill="none" stroke="#5b6300" stroke-linecap="round" stroke-width="3"></path>
+<circle cx="0" cy="80" fill="#5b6300" r="4"></circle>
+<circle cx="400" cy="20" fill="#5b6300" r="4"></circle>
+<!-- Decorative pulse at current point -->
+<circle class="pulse-indicator" cx="400" cy="20" fill="#5b6300" r="8" style="opacity: 0.3"></circle>
+</svg>
+<div class="absolute inset-0 flex justify-between items-end pb-1 opacity-40 pointer-events-none">
+<span class="font-label-sm text-[10px]">Sem. 1</span>
+<span class="font-label-sm text-[10px]">Aujourd'hui</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant italic">"Sensation de fluidité accrue sur les terrains techniques."</p>
+</div>
+<!-- Last Session Details -->
+<div class="grid grid-cols-2 gap-stack-sm">
+<div class="bg-surface-container-low rounded-xl p-4 flex flex-col justify-between">
+<span class="material-symbols-outlined text-primary-container" data-icon="mood">mood</span>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Moral</p>
+<p class="font-title-md text-title-md text-primary">Excellent</p>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-4 flex flex-col justify-between">
+<span class="material-symbols-outlined text-primary-container" data-icon="physical_therapy">physical_therapy</span>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Tension</p>
+<p class="font-title-md text-title-md text-primary">Minime</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Confidence Milestones -->
+<section class="space-y-stack-sm">
+<h3 class="font-title-md text-title-md text-primary">Confiance & Capacités</h3>
+<div class="space-y-4">
+<div class="flex items-center gap-4 group">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary shrink-0 transition-transform group-active:scale-95">
+<span class="material-symbols-outlined" data-icon="terrain">terrain</span>
+</div>
+<div class="flex-1 border-b border-outline-variant/30 pb-4">
+<div class="flex justify-between items-center mb-2">
+<p class="font-body-lg text-body-lg font-semibold text-on-surface">Dénivelé sans appréhension</p>
+<span class="font-label-sm text-label-sm text-secondary">80%</span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 80%"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4 group">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary shrink-0 transition-transform group-active:scale-95">
+<span class="material-symbols-outlined" data-icon="timer">timer</span>
+</div>
+<div class="flex-1 border-b border-outline-variant/30 pb-4">
+<div class="flex justify-between items-center mb-2">
+<p class="font-body-lg text-body-lg font-semibold text-on-surface">Endurance fondamentale</p>
+<span class="font-label-sm text-label-sm text-secondary">65%</span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 65%"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Aesthetic Motivation Image -->
+<section class="rounded-2xl overflow-hidden h-48 relative shadow-lg group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A tranquil landscape of mist-covered mountains at dawn. The image captures the feeling of steady, peaceful movement through nature. A single trail winds through the grass, disappearing into the soft morning fog. The colors are muted teals, greys, and soft yellows, evoking a sense of calm resilience and restorative progress." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuGIXDZGGrBCxp8JqY0UCiOf6Z0FvSGYrMN5OPffY1gKW0bfwpaK17abNwze7qvwM9d9HqxofwHtE5Na0Bz8G8G_c-HyGK2kLoLmkVrmAC768iGR3I5FDH2G2Dgx67Ijo6YNiSiiK_URwUdrYApcb9U2Sox6EQjd_TqBtKsFm9YLusWnII8CliZeEhajHw1GLGBU4ymiJCl_3nbQxDRtEJA1nMEI8PkB-IchBZcCxHPIgULgUeFzP2"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent flex flex-col justify-end p-6">
+<p class="text-white font-title-md italic">"Le progrès n'est pas une ligne droite, c'est un battement de cœur."</p>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter py-2 bg-surface shadow-[0_-4px_20px_0_rgba(26,77,77,0.04)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 transition-all duration-200 active:scale-95 hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-sm text-label-sm mt-1">Aujourd'hui</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 transition-all duration-200 active:scale-95 hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined" data-icon="event_note">event_note</span>
+<span class="font-label-sm text-label-sm mt-1">Programme</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 transition-all duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span class="font-label-sm text-label-sm mt-1">Progression</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 transition-all duration-200 active:scale-95 hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined" data-icon="fitness_center">fitness_center</span>
+<span class="font-label-sm text-label-sm mt-1">Exercices</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 transition-all duration-200 active:scale-95 hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm mt-1">Profil</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for graph hover
+        document.querySelectorAll('.group').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                // Potential for tooltip or detail view logic
+            });
+        });
+    </script>
+</body></html>

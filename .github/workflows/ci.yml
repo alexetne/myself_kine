@@ -1,0 +1,40 @@
+name: ci
+on:
+  pull_request:
+  push:
+    branches: [master, main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: myself_kine_test
+          POSTGRES_USER: myself_kine
+          POSTGRES_PASSWORD: test-only
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U myself_kine -d myself_kine_test"
+          --health-interval 5s --health-timeout 3s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://myself_kine:test-only@localhost:5432/myself_kine_test
+      OIDC_ISSUER: https://identity.test/
+      OIDC_AUDIENCE: myself-kine-api
+      OIDC_JWKS_URI: https://identity.test/.well-known/jwks.json
+      NODE_ENV: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run db:migrate
+      - run: npm test
+      - run: npm run build
+      - run: npm audit --audit-level=high

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Programme - KinéTrail</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#baeceb",
+                        "secondary": "#5b6300",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#404848",
+                        "on-primary-container": "#8bbdbc",
+                        "surface-container-highest": "#e2e3e1",
+                        "primary-fixed-dim": "#9ed0cf",
+                        "tertiary-fixed": "#ffdcc5",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed": "#301400",
+                        "outline": "#707978",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c0c8c7",
+                        "secondary-fixed": "#dfec60",
+                        "error-container": "#ffdad6",
+                        "surface-container-highest": "#e2e3e1",
+                        "primary-container": "#1a4d4d",
+                        "surface-bright": "#f9f9f7",
+                        "surface-tint": "#366666",
+                        "on-secondary-fixed-variant": "#444b00",
+                        "on-background": "#1a1c1b",
+                        "surface-container": "#eeeeec",
+                        "inverse-on-surface": "#f1f1ef",
+                        "surface-container-low": "#f4f4f2",
+                        "background": "#f9f9f7",
+                        "on-secondary-container": "#616a00",
+                        "surface": "#f9f9f7",
+                        "primary": "#003636",
+                        "on-primary-fixed": "#002020",
+                        "secondary-fixed-dim": "#c2cf47",
+                        "on-tertiary-container": "#ff9b4c",
+                        "tertiary-container": "#6f3600",
+                        "secondary-container": "#dfec60",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#1a1c1b",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb783",
+                        "on-primary-fixed-variant": "#1b4e4e",
+                        "on-tertiary-fixed-variant": "#713700",
+                        "inverse-primary": "#9ed0cf",
+                        "on-secondary-fixed": "#1a1d00",
+                        "tertiary": "#4d2400",
+                        "inverse-surface": "#2f3130",
+                        "surface-dim": "#dadad8",
+                        "surface-variant": "#e2e3e1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "stack-lg": "40px",
+                        "stack-md": "24px",
+                        "stack-sm": "12px",
+                        "container-padding": "20px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "title-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "label-sm": ["JetBrains Mono"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f9f9f7; color: #1a1c1b; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .active-day-pulse { animation: pulse-shadow 2s infinite ease-in-out; }
+        @keyframes pulse-shadow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(26, 77, 77, 0.1); }
+            50% { box-shadow: 0 0 20px 4px rgba(26, 77, 77, 0.08); }
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .bento-full { grid-column: span 2; }
+    </style>
+</head>
+<body class="bg-surface pb-32">
+<!-- TopAppBar -->
+<header class="sticky top-0 w-full z-40 flex justify-between items-center px-gutter py-stack-sm bg-surface">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-fixed">
+<img class="w-full h-full object-cover" data-alt="A close-up portrait of a professional runner in their late 30s, looking resilient and focused. The lighting is soft morning natural light in an outdoor forest setting. The overall aesthetic is calm, high-end, and empathetic, matching an Alpine Forest color palette with deep greens and clean white accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmHg5bxIpHgGl0IM4dYeaEbMFbU8QX8yckpWNamIsWWdb-sD3biQbB5_Y3pqM6Yi5o-8MHh9M2WS_Ky7MVv3ydSaf-66niT_rIlRP38WjE2dFa6QIflpfbXGRmb3vuw9vko0qVxicWC1EWUfWokn9ltRokzWSyCd7nkLIs5QS1qjijJ277HZn_J1dHzRDSaEFGOaJvbl7pmrtGmdn5b9tJCRxht3-jvfFkz1Zf2LeCei_McU847uoh"/>
+</div>
+<h1 class="font-title-md text-title-md text-primary">Programme</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+</header>
+<main class="px-gutter space-y-stack-md mt-4">
+<!-- Week Selector (Horizontal Scroll) -->
+<section class="overflow-x-auto">
+<div class="flex gap-3 pb-2">
+<div class="flex flex-col items-center justify-center min-w-[64px] h-20 rounded-xl bg-primary text-on-primary">
+<span class="font-label-sm text-label-sm opacity-80">LUN</span>
+<span class="font-title-md text-title-md">12</span>
+</div>
+<div class="flex flex-col items-center justify-center min-w-[64px] h-20 rounded-xl bg-surface-container text-on-surface-variant">
+<span class="font-label-sm text-label-sm opacity-60">MAR</span>
+<span class="font-title-md text-title-md">13</span>
+</div>
+<div class="flex flex-col items-center justify-center min-w-[64px] h-20 rounded-xl bg-surface-container text-on-surface-variant">
+<span class="font-label-sm text-label-sm opacity-60">MER</span>
+<span class="font-title-md text-title-md">14</span>
+</div>
+<div class="flex flex-col items-center justify-center min-w-[64px] h-20 rounded-xl bg-surface-container text-on-surface-variant">
+<span class="font-label-sm text-label-sm opacity-60">JEU</span>
+<span class="font-title-md text-title-md">15</span>
+</div>
+<div class="flex flex-col items-center justify-center min-w-[64px] h-20 rounded-xl bg-surface-container text-on-surface-variant">
+<span class="font-label-sm text-label-sm opacity-60">VEN</span>
+<span class="font-title-md text-title-md">16</span>
+</div>
+</div>
+</section>
+<!-- Main Content Grid -->
+<div class="bento-grid">
+<!-- Today's Highlight: Muscle Strengthening -->
+<section class="bento-full p-5 rounded-3xl bg-primary-container text-on-primary flex flex-col justify-between min-h-[180px] relative overflow-hidden active-day-pulse">
+<div class="relative z-10">
+<span class="font-label-sm text-label-sm px-3 py-1 bg-white/10 rounded-full inline-block mb-3">FOCUS DU JOUR</span>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile mb-2">Renforcement Musculaire</h2>
+<p class="font-body-md text-body-md opacity-90 max-w-[80%]">
+                        Ciblage des stabilisateurs de la cheville et de la chaîne postérieure pour prévenir les blessures en trail.
+                    </p>
+</div>
+<div class="relative z-10 mt-6 flex justify-between items-end">
+<div class="flex gap-4">
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] opacity-70">DURÉE</span>
+<span class="font-title-md text-title-md">45 min</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] opacity-70">INTENSITÉ</span>
+<span class="font-title-md text-title-md">Modérée</span>
+</div>
+</div>
+<button class="bg-white text-primary px-6 py-3 rounded-full font-bold transition-all active:scale-95 shadow-lg">Lancer</button>
+</div>
+<!-- Subtle Texture Placeholder -->
+<div class="absolute right-[-20px] bottom-[-20px] opacity-10">
+<span class="material-symbols-outlined text-[160px]" style="font-variation-settings: 'FILL' 1;">fitness_center</span>
+</div>
+</section>
+<!-- Recovery Highlight (Récupération) -->
+<section class="p-5 rounded-3xl bg-secondary-container text-on-secondary-container flex flex-col justify-between min-h-[160px] border border-secondary/10">
+<div>
+<span class="material-symbols-outlined text-secondary mb-3">spa</span>
+<h3 class="font-title-md text-title-md block">Récupération</h3>
+<p class="font-label-sm text-label-sm mt-1 opacity-80">Drainage lymphatique & mobilité passive.</p>
+</div>
+<div class="mt-4">
+<span class="font-label-sm text-label-sm text-secondary font-bold">RECOMMANDÉ</span>
+</div>
+</section>
+<!-- Prevention Section -->
+<section class="p-5 rounded-3xl bg-white shadow-sm border border-outline-variant/30 flex flex-col justify-between min-h-[160px]">
+<div>
+<span class="material-symbols-outlined text-primary mb-3">shield_with_heart</span>
+<h3 class="font-title-md text-title-md block">Prévention</h3>
+<p class="font-label-sm text-label-sm mt-1 text-on-surface-variant">Exercices de proprioception sur plateau instable.</p>
+</div>
+<div class="mt-4 flex items-center text-primary font-medium">
+<span class="font-label-sm text-label-sm">En savoir plus</span>
+<span class="material-symbols-outlined text-sm ml-1">chevron_right</span>
+</div>
+</section>
+<!-- Weekly Overview (Simple Day Cards) -->
+<h3 class="bento-full font-title-md text-title-md text-on-surface pt-4">Reste de la semaine</h3>
+<div class="bento-full space-y-3">
+<!-- Tuesday -->
+<div class="flex items-center gap-4 p-4 bg-white rounded-2xl border border-outline-variant/20">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant shrink-0">
+<span class="material-symbols-outlined">directions_run</span>
+</div>
+<div class="flex-grow">
+<h4 class="font-title-md text-body-md font-semibold">Course endurance</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Zone 2 - 60 minutes</p>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">MAR 13</span>
+</div>
+<!-- Wednesday -->
+<div class="flex items-center gap-4 p-4 bg-secondary-container/30 rounded-2xl border border-secondary/5">
+<div class="w-12 h-12 rounded-xl bg-secondary-container flex items-center justify-center text-secondary shrink-0">
+<span class="material-symbols-outlined">self_improvement</span>
+</div>
+<div class="flex-grow">
+<h4 class="font-title-md text-body-md font-semibold text-on-secondary-container">Récupération active</h4>
+<p class="font-label-sm text-label-sm text-on-secondary-container/80">Étirements profonds & Yoga</p>
+</div>
+<span class="font-label-sm text-label-sm text-on-secondary-container">MER 14</span>
+</div>
+<!-- Thursday -->
+<div class="flex items-center gap-4 p-4 bg-white rounded-2xl border border-outline-variant/20 opacity-60">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant shrink-0">
+<span class="material-symbols-outlined">fitness_center</span>
+</div>
+<div class="flex-grow">
+<h4 class="font-title-md text-body-md font-semibold">Renforcement Haut</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Stabilité tronc et bras</p>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">JEU 15</span>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter py-2 bg-surface shadow-[0_-4px_20px_0_rgba(26,77,77,0.04)] rounded-t-xl">
+<!-- Aujourd'hui -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 transition-all duration-200 active:scale-95 hover:bg-surface-container-high p-2 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-sm text-label-sm">Aujourd'hui</span>
+</a>
+<!-- Programme (ACTIVE) -->
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 transition-all duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="event_note" style="font-variation-settings: 'FILL' 1;">event_note</span>
+<span class="font-label-sm text-label-sm">Programme</span>
+</a>
+<!-- Progression -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 transition-all duration-200 active:scale-95 hover:bg-surface-container-high p-2 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span class="font-label-sm text-label-sm">Progression</span>
+</a>
+<!-- Exercices -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 transition-all duration-200 active:scale-95 hover:bg-surface-container-high p-2 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="fitness_center">fitness_center</span>
+<span class="font-label-sm text-label-sm">Exercices</span>
+</a>
+<!-- Profil -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 transition-all duration-200 active:scale-95 hover:bg-surface-container-high p-2 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Profil</span>
+</a>
+</nav>
+<script>
+        // Simple interaction for cards
+        document.querySelectorAll('.bento-grid section, .bento-full > div').forEach(card => {
+            card.addEventListener('click', () => {
+                card.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    card.style.transform = 'scale(1)';
+                }, 100);
+            });
+            card.style.transition = 'transform 0.2s ease';
+        });
+    </script>
+</body></html>
