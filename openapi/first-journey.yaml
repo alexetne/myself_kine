@@ -1,0 +1,1022 @@
+openapi: 3.1.0
+info:
+  title: Myself Kine — Premier parcours
+  version: 0.1.0-draft
+  description: >-
+    Contrat de conception utilisant uniquement des exemples synthétiques. Il ne
+    contient aucun diagnostic, seuil ou référentiel clinique publiable.
+servers:
+  - url: https://api.invalid.example/api/v1
+    description: Domaine fictif non routable
+security:
+  - oidcBearer: []
+tags:
+  - name: Identity
+  - name: Consents
+  - name: Questionnaires
+  - name: Assessments
+  - name: Catalog
+  - name: Programs
+  - name: Sessions
+  - name: Tracking
+  - name: Progress
+  - name: Clinical administration
+paths:
+  /me:
+    get:
+      tags: [Identity]
+      operationId: getMe
+      responses:
+        "200":
+          description: Utilisateur applicatif courant
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/User" }
+        default: { $ref: "#/components/responses/Error" }
+  /me/profile:
+    get:
+      tags: [Identity]
+      operationId: getMySportProfile
+      responses:
+        "200":
+          description: Profil sportif du propriétaire authentifié
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SportProfile" }
+        default: { $ref: "#/components/responses/Error" }
+    put:
+      tags: [Identity]
+      operationId: putMySportProfile
+      parameters:
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SportProfileInput" }
+      responses:
+        "200":
+          description: Profil créé ou remplacé
+          headers:
+            ETag: { schema: { type: string }, description: Version optimiste }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SportProfile" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        default: { $ref: "#/components/responses/Error" }
+  /me/consents:
+    get:
+      tags: [Consents]
+      operationId: getMyConsents
+      responses:
+        "200":
+          description: Définitions applicables et décisions courantes
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items: { $ref: "#/components/schemas/ConsentState" }
+        default: { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Consents]
+      operationId: recordMyConsent
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ConsentInput" }
+      responses:
+        "201":
+          description: Décision append-only enregistrée
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ConsentRecord" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        default: { $ref: "#/components/responses/Error" }
+  /me/consents/{record_id}/withdrawal:
+    post:
+      tags: [Consents]
+      operationId: withdrawMyConsent
+      parameters:
+        - $ref: "#/components/parameters/RecordId"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      responses:
+        "202":
+          description: Retrait pris en compte ou workflow associé lancé
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ConsentWithdrawal" }
+        default: { $ref: "#/components/responses/Error" }
+  /questionnaires:
+    get:
+      tags: [Questionnaires]
+      operationId: listPublishedQuestionnaires
+      parameters:
+        - in: query
+          name: purpose
+          schema: { type: string, enum: [initial_safety] }
+      responses:
+        "200":
+          description: Versions publiées compatibles avec le client
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items: { $ref: "#/components/schemas/QuestionnaireSummary" }
+        default: { $ref: "#/components/responses/Error" }
+  /questionnaires/{version_id}:
+    get:
+      tags: [Questionnaires]
+      operationId: getQuestionnaireVersion
+      parameters:
+        - $ref: "#/components/parameters/VersionId"
+      responses:
+        "200":
+          description: Version publiée immuable
+          headers:
+            ETag:
+              { schema: { type: string }, description: Empreinte du contenu }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/QuestionnaireVersion" }
+        default: { $ref: "#/components/responses/Error" }
+  /questionnaires/{version_id}/submissions:
+    post:
+      tags: [Questionnaires]
+      operationId: submitQuestionnaireVersion
+      parameters:
+        - $ref: "#/components/parameters/VersionId"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              { $ref: "#/components/schemas/QuestionnaireSubmissionInput" }
+      responses:
+        "201":
+          description: Soumission et état d'évaluation
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/QuestionnaireSubmission" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        default: { $ref: "#/components/responses/Error" }
+  /assessments:
+    get:
+      tags: [Assessments]
+      operationId: listMyAssessments
+      parameters:
+        - $ref: "#/components/parameters/Cursor"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Bilans du propriétaire
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AssessmentPage" }
+        default: { $ref: "#/components/responses/Error" }
+    post:
+      tags: [Assessments]
+      operationId: createMyAssessment
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AssessmentInput" }
+      responses:
+        "201":
+          description: Bilan initial enregistré sans interprétation libre
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Assessment" }
+        default: { $ref: "#/components/responses/Error" }
+  /exercises:
+    get:
+      tags: [Catalog]
+      operationId: listPublishedExercises
+      parameters:
+        - $ref: "#/components/parameters/Cursor"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Dernières versions publiées uniquement
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ExercisePage" }
+        default: { $ref: "#/components/responses/Error" }
+  /exercises/{exercise_id}:
+    get:
+      tags: [Catalog]
+      operationId: getPublishedExercise
+      parameters:
+        - in: path
+          name: exercise_id
+          required: true
+          schema: { $ref: "#/components/schemas/Uuid" }
+      responses:
+        "200":
+          description: Version publiée exacte
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Exercise" }
+        default: { $ref: "#/components/responses/Error" }
+  /programs/current:
+    get:
+      tags: [Programs]
+      operationId: getMyCurrentProgram
+      responses:
+        "200":
+          description: Programme courant et justification de version
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Program" }
+        default: { $ref: "#/components/responses/Error" }
+  /programs/current/weeks:
+    get:
+      tags: [Programs]
+      operationId: listMyCurrentProgramWeeks
+      parameters:
+        - $ref: "#/components/parameters/Cursor"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Semaines et séances planifiées
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ProgramWeekPage" }
+        default: { $ref: "#/components/responses/Error" }
+  /planned-sessions/{session_id}:
+    get:
+      tags: [Sessions]
+      operationId: getMyPlannedSession
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+      responses:
+        "200":
+          description: Séance appartenant à l'utilisateur
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PlannedSession" }
+        default: { $ref: "#/components/responses/Error" }
+  /planned-sessions/{session_id}/runs:
+    post:
+      tags: [Sessions]
+      operationId: startMySessionRun
+      parameters:
+        - $ref: "#/components/parameters/SessionId"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      responses:
+        "201":
+          description: Exécution créée ou réponse initiale rejouée
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SessionRun" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        default: { $ref: "#/components/responses/Error" }
+  /session-runs/{run_id}/events:
+    post:
+      tags: [Sessions]
+      operationId: appendMySessionEvent
+      parameters:
+        - $ref: "#/components/parameters/RunId"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SessionEventInput" }
+      responses:
+        "202": { description: Événement accepté une seule fois }
+        default: { $ref: "#/components/responses/Error" }
+  /session-runs/{run_id}/discomfort-reports:
+    post:
+      tags: [Sessions]
+      operationId: reportMyDiscomfort
+      parameters:
+        - $ref: "#/components/parameters/RunId"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/DiscomfortInput" }
+      responses:
+        "201":
+          description: Gêne enregistrée sans diagnostic
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DiscomfortReport" }
+        default: { $ref: "#/components/responses/Error" }
+  /session-runs/{run_id}/completion:
+    post:
+      tags: [Sessions]
+      operationId: completeMySessionRun
+      parameters:
+        - $ref: "#/components/parameters/RunId"
+        - $ref: "#/components/parameters/IdempotencyKey"
+        - $ref: "#/components/parameters/IfMatch"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SessionCompletionInput" }
+      responses:
+        "200":
+          description: Séance terminée
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SessionRun" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        default: { $ref: "#/components/responses/Error" }
+  /daily-checkins:
+    post:
+      tags: [Tracking]
+      operationId: createMyDailyCheckin
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/DailyCheckinInput" }
+      responses:
+        "201":
+          description: Point quotidien et état d'évaluation
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DailyCheckin" }
+        default: { $ref: "#/components/responses/Error" }
+  /follow-ups:
+    post:
+      tags: [Tracking]
+      operationId: createMyFollowUp
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/FollowUpInput" }
+      responses:
+        "201":
+          description: Suivi différé et décision explicable ou état non évalué
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FollowUp" }
+        default: { $ref: "#/components/responses/Error" }
+  /progress:
+    get:
+      tags: [Progress]
+      operationId: getMyProgress
+      parameters:
+        - in: query
+          name: from
+          required: true
+          schema: { type: string, format: date }
+        - in: query
+          name: to
+          required: true
+          schema: { type: string, format: date }
+      responses:
+        "200":
+          description: Tendances descriptives, sans causalité médicale
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Progress" }
+        default: { $ref: "#/components/responses/Error" }
+  /admin/questionnaires/{questionnaire_id}/versions:
+    post:
+      tags: [Clinical administration]
+      operationId: createQuestionnaireDraftVersion
+      description: Crée un brouillon. Cette opération ne le rend pas utilisable par les sportifs.
+      parameters:
+        - in: path
+          name: questionnaire_id
+          required: true
+          schema: { $ref: "#/components/schemas/Uuid" }
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/QuestionnaireDraftInput" }
+      responses:
+        "201":
+          description: Brouillon versionné créé et audité
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ClinicalResourceVersion" }
+        default: { $ref: "#/components/responses/Error" }
+  /admin/questionnaire-versions/{version_id}/publication:
+    post:
+      tags: [Clinical administration]
+      operationId: publishQuestionnaireVersion
+      description: Publication atomique après validation distincte de l'auteur.
+      parameters:
+        - $ref: "#/components/parameters/VersionId"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PublicationInput" }
+      responses:
+        "200":
+          description: Version publiée immuable
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ClinicalResourceVersion" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        default: { $ref: "#/components/responses/Error" }
+  /admin/rule-sets/{rule_set_id}/versions:
+    post:
+      tags: [Clinical administration]
+      operationId: createRuleSetDraftVersion
+      description: Crée une configuration sans code arbitraire et sans la publier.
+      parameters:
+        - in: path
+          name: rule_set_id
+          required: true
+          schema: { $ref: "#/components/schemas/Uuid" }
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/RuleSetDraftInput" }
+      responses:
+        "201":
+          description: Brouillon créé et audité
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ClinicalResourceVersion" }
+        default: { $ref: "#/components/responses/Error" }
+  /admin/rule-set-versions/{version_id}/simulations:
+    post:
+      tags: [Clinical administration]
+      operationId: simulateRuleSetVersion
+      description: Accepte exclusivement une fixture marquée synthétique et ne produit aucun effet métier.
+      parameters:
+        - $ref: "#/components/parameters/VersionId"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/RuleSimulationInput" }
+      responses:
+        "200":
+          description: Résultat de simulation audité
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/RuleResult" }
+        default: { $ref: "#/components/responses/Error" }
+  /admin/rule-set-versions/{version_id}/publication:
+    post:
+      tags: [Clinical administration]
+      operationId: publishRuleSetVersion
+      description: Publie l'ensemble après tests synthétiques et validation clinique formelle.
+      parameters:
+        - $ref: "#/components/parameters/VersionId"
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PublicationInput" }
+      responses:
+        "200":
+          description: Jeu publié de manière atomique
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ClinicalResourceVersion" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        default: { $ref: "#/components/responses/Error" }
+components:
+  securitySchemes:
+    oidcBearer:
+      type: openIdConnect
+      openIdConnectUrl: https://identity.invalid.example/.well-known/openid-configuration
+  parameters:
+    IdempotencyKey:
+      in: header
+      name: Idempotency-Key
+      required: true
+      schema: { type: string, minLength: 8, maxLength: 128 }
+    IfMatch:
+      in: header
+      name: If-Match
+      required: true
+      schema: { type: string }
+    Cursor:
+      in: query
+      name: cursor
+      schema: { type: string, maxLength: 256 }
+    Limit:
+      in: query
+      name: limit
+      schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+    RecordId:
+      in: path
+      name: record_id
+      required: true
+      schema: { $ref: "#/components/schemas/Uuid" }
+    VersionId:
+      in: path
+      name: version_id
+      required: true
+      schema: { $ref: "#/components/schemas/Uuid" }
+    SessionId:
+      in: path
+      name: session_id
+      required: true
+      schema: { $ref: "#/components/schemas/Uuid" }
+    RunId:
+      in: path
+      name: run_id
+      required: true
+      schema: { $ref: "#/components/schemas/Uuid" }
+  responses:
+    Error:
+      description: Erreur uniforme sans information sensible
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorEnvelope" }
+    Conflict:
+      description: Version, état ou clé d'idempotence en conflit
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorEnvelope" }
+  schemas:
+    Uuid:
+      type: string
+      format: uuid
+      example: 00000000-0000-7000-8000-000000000001
+    User:
+      type: object
+      required: [id, roles]
+      properties:
+        id: { $ref: "#/components/schemas/Uuid" }
+        roles: { type: array, items: { type: string }, example: [user] }
+    SportProfileInput:
+      type: object
+      additionalProperties: false
+      required:
+        [birth_year, practices, level, goal, weekly_availability, equipment]
+      properties:
+        birth_year: { type: integer, example: 1990 }
+        practices:
+          { type: array, maxItems: 8, items: { type: string }, example: [road] }
+        level: { type: string, enum: [beginner, regular, experienced] }
+        goal: { type: string, enum: [prevention, strength, return_after_break] }
+        weekly_availability:
+          {
+            type: object,
+            additionalProperties: true,
+            example: { synthetic_day: 30 },
+          }
+        equipment:
+          {
+            type: array,
+            maxItems: 20,
+            items: { type: string },
+            example: [synthetic_mat],
+          }
+    SportProfile:
+      allOf:
+        - $ref: "#/components/schemas/SportProfileInput"
+        - type: object
+          required: [version, updated_at]
+          properties:
+            version: { type: integer, minimum: 1 }
+            updated_at: { type: string, format: date-time }
+    ConsentInput:
+      type: object
+      additionalProperties: false
+      required: [definition_version_id, decision]
+      properties:
+        definition_version_id: { $ref: "#/components/schemas/Uuid" }
+        decision: { type: string, enum: [granted, refused] }
+    ConsentRecord:
+      allOf:
+        - $ref: "#/components/schemas/ConsentInput"
+        - type: object
+          required: [id, recorded_at]
+          properties:
+            id: { $ref: "#/components/schemas/Uuid" }
+            recorded_at: { type: string, format: date-time }
+    ConsentState:
+      type: object
+      required: [code, definition_version_id, required, state]
+      properties:
+        code: { type: string, example: sensitive_data_processing }
+        definition_version_id: { $ref: "#/components/schemas/Uuid" }
+        required: { type: boolean }
+        state:
+          { type: string, enum: [not_recorded, granted, refused, withdrawn] }
+    ConsentWithdrawal:
+      type: object
+      required: [record_id, status, effective_at]
+      properties:
+        record_id: { $ref: "#/components/schemas/Uuid" }
+        status: { type: string, enum: [effective, workflow_started] }
+        effective_at: { type: string, format: date-time }
+    QuestionnaireSummary:
+      type: object
+      required: [version_id, code, version, title, content_hash]
+      properties:
+        version_id: { $ref: "#/components/schemas/Uuid" }
+        code: { type: string, example: synthetic-safety-demo }
+        version: { type: integer, example: 1 }
+        title: { type: string, example: Questionnaire fictif de contrat }
+        content_hash: { type: string, pattern: "^[a-f0-9]{64}$" }
+    QuestionnaireVersion:
+      allOf:
+        - $ref: "#/components/schemas/QuestionnaireSummary"
+        - type: object
+          required: [disclaimer, questions]
+          properties:
+            disclaimer:
+              { type: string, example: Exemple fictif sans portée clinique. }
+            questions:
+              type: array
+              items:
+                type: object
+                required: [id, type, label]
+                properties:
+                  id: { type: string, example: synthetic-q-001 }
+                  type:
+                    {
+                      type: string,
+                      enum:
+                        [
+                          boolean,
+                          single_choice,
+                          multiple_choice,
+                          integer,
+                          decimal,
+                          text,
+                        ],
+                    }
+                  label:
+                    {
+                      type: string,
+                      example: Question fictive réservée au test du contrat.,
+                    }
+                  required: { type: boolean }
+                  options:
+                    {
+                      type: array,
+                      items: { type: string },
+                      example: [synthetic-a, synthetic-b],
+                    }
+    QuestionnaireSubmissionInput:
+      type: object
+      additionalProperties: false
+      required: [answers]
+      properties:
+        answers:
+          type: array
+          items:
+            type: object
+            required: [question_id, value]
+            properties:
+              question_id: { type: string, example: synthetic-q-001 }
+              value: { example: synthetic-a }
+    QuestionnaireSubmission:
+      type: object
+      required: [id, questionnaire_version_id, submitted_at, evaluation]
+      properties:
+        id: { $ref: "#/components/schemas/Uuid" }
+        questionnaire_version_id: { $ref: "#/components/schemas/Uuid" }
+        submitted_at: { type: string, format: date-time }
+        evaluation: { $ref: "#/components/schemas/RuleResult" }
+    RuleResult:
+      type: object
+      required: [status, action, reason_code, rule_set_version_id]
+      properties:
+        status:
+          {
+            type: string,
+            enum: [matched, no_match, not_evaluated, blocked, simulation],
+          }
+        action: { type: string, example: none }
+        reason_code: { type: string, example: CLINICAL_REFERENCE_NOT_PUBLISHED }
+        explanation:
+          {
+            type: string,
+            example: Aucune décision automatique n'a été appliquée.,
+          }
+        rule_set_version_id:
+          oneOf: [{ $ref: "#/components/schemas/Uuid" }, { type: "null" }]
+        matched_rule_version_ids:
+          type: array
+          items: { $ref: "#/components/schemas/Uuid" }
+    AssessmentInput:
+      type: object
+      required: [definition_version_id, results]
+      properties:
+        definition_version_id: { $ref: "#/components/schemas/Uuid" }
+        results:
+          {
+            type: array,
+            items: { type: object, additionalProperties: true },
+            example: [{ synthetic_measure: "synthetic-value" }],
+          }
+    Assessment:
+      allOf:
+        - $ref: "#/components/schemas/AssessmentInput"
+        - type: object
+          required: [id, created_at]
+          properties:
+            id: { $ref: "#/components/schemas/Uuid" }
+            created_at: { type: string, format: date-time }
+    AssessmentPage:
+      type: object
+      required: [items, next_cursor]
+      properties:
+        items:
+          { type: array, items: { $ref: "#/components/schemas/Assessment" } }
+        next_cursor: { type: [string, "null"] }
+    Exercise:
+      type: object
+      required: [id, version_id, title, instructions, stop_criteria]
+      properties:
+        id: { $ref: "#/components/schemas/Uuid" }
+        version_id: { $ref: "#/components/schemas/Uuid" }
+        title: { type: string, example: Exercice synthétique }
+        instructions:
+          {
+            type: array,
+            items: { type: string },
+            example: [Instruction fictive.],
+          }
+        stop_criteria:
+          {
+            type: array,
+            items: { type: string },
+            example: [Critère fictif non clinique.],
+          }
+    ExercisePage:
+      type: object
+      required: [items, next_cursor]
+      properties:
+        items: { type: array, items: { $ref: "#/components/schemas/Exercise" } }
+        next_cursor: { type: [string, "null"] }
+    Program:
+      type: object
+      required: [id, version_id, status, reason]
+      properties:
+        id: { $ref: "#/components/schemas/Uuid" }
+        version_id: { $ref: "#/components/schemas/Uuid" }
+        status: { type: string, enum: [current, suspended, completed] }
+        reason:
+          { type: string, example: Programme fictif pour test de contrat. }
+    ProgramWeekPage:
+      type: object
+      required: [items, next_cursor]
+      properties:
+        items:
+          { type: array, items: { type: object, additionalProperties: true } }
+        next_cursor: { type: [string, "null"] }
+    PlannedSession:
+      type: object
+      required: [id, local_date, timezone, kind, version, items]
+      properties:
+        id: { $ref: "#/components/schemas/Uuid" }
+        local_date: { type: string, format: date, example: 2030-01-02 }
+        timezone: { type: string, example: Europe/Paris }
+        kind: { type: string, enum: [strength, running, recovery, rest] }
+        version: { type: integer }
+        items:
+          { type: array, items: { type: object, additionalProperties: true } }
+    SessionRun:
+      type: object
+      required: [id, planned_session_id, status, version, started_at]
+      properties:
+        id: { $ref: "#/components/schemas/Uuid" }
+        planned_session_id: { $ref: "#/components/schemas/Uuid" }
+        status: { type: string, enum: [in_progress, completed, abandoned] }
+        version: { type: integer }
+        started_at: { type: string, format: date-time }
+    SessionEventInput:
+      type: object
+      required: [client_event_id, type, occurred_at, payload]
+      properties:
+        client_event_id: { $ref: "#/components/schemas/Uuid" }
+        type:
+          {
+            type: string,
+            enum:
+              [step_started, set_completed, paused, resumed, exercise_skipped],
+          }
+        occurred_at: { type: string, format: date-time }
+        payload: { type: object, additionalProperties: true }
+    DiscomfortInput:
+      type: object
+      required: [client_event_id, declared_level, action]
+      properties:
+        client_event_id: { $ref: "#/components/schemas/Uuid" }
+        declared_level:
+          {
+            type: integer,
+            minimum: 0,
+            maximum: 10,
+            description: Échelle de saisie,
+            pas un seuil décisionnel.,
+          }
+        comment:
+          { type: string, maxLength: 1000, example: Commentaire synthétique. }
+        action: { type: string, enum: [pause, stop] }
+    DiscomfortReport:
+      allOf:
+        - $ref: "#/components/schemas/DiscomfortInput"
+        - type: object
+          required: [id, recorded_at, evaluation]
+          properties:
+            id: { $ref: "#/components/schemas/Uuid" }
+            recorded_at: { type: string, format: date-time }
+            evaluation: { $ref: "#/components/schemas/RuleResult" }
+    SessionCompletionInput:
+      type: object
+      required: [perceived_effort, confidence]
+      properties:
+        perceived_effort: { type: integer, minimum: 0, maximum: 10 }
+        confidence: { type: integer, minimum: 0, maximum: 10 }
+        comment: { type: string, maxLength: 1000, example: Bilan synthétique. }
+    DailyCheckinInput:
+      type: object
+      required:
+        [local_date, timezone, fatigue, sleep_quality, stress, motivation]
+      properties:
+        local_date: { type: string, format: date, example: 2030-01-02 }
+        timezone: { type: string, example: Europe/Paris }
+        fatigue: { type: integer, minimum: 0, maximum: 10 }
+        sleep_quality: { type: integer, minimum: 0, maximum: 10 }
+        stress: { type: integer, minimum: 0, maximum: 10 }
+        motivation: { type: integer, minimum: 0, maximum: 10 }
+        discomfort: { type: integer, minimum: 0, maximum: 10 }
+        comment: { type: string, maxLength: 1000, example: Note synthétique. }
+    DailyCheckin:
+      allOf:
+        - $ref: "#/components/schemas/DailyCheckinInput"
+        - type: object
+          required: [id, created_at, evaluation]
+          properties:
+            id: { $ref: "#/components/schemas/Uuid" }
+            created_at: { type: string, format: date-time }
+            evaluation: { $ref: "#/components/schemas/RuleResult" }
+    FollowUpInput:
+      type: object
+      required: [session_run_id, observed_at, timezone, responses]
+      properties:
+        session_run_id: { $ref: "#/components/schemas/Uuid" }
+        observed_at: { type: string, format: date-time }
+        timezone: { type: string, example: Europe/Paris }
+        responses:
+          {
+            type: object,
+            additionalProperties: true,
+            example: { synthetic_response: "synthetic-value" },
+          }
+    FollowUp:
+      allOf:
+        - $ref: "#/components/schemas/FollowUpInput"
+        - type: object
+          required: [id, evaluation]
+          properties:
+            id: { $ref: "#/components/schemas/Uuid" }
+            evaluation: { $ref: "#/components/schemas/RuleResult" }
+    Progress:
+      type: object
+      required: [from, to, series, disclaimer]
+      properties:
+        from: { type: string, format: date }
+        to: { type: string, format: date }
+        series:
+          { type: array, items: { type: object, additionalProperties: true } }
+        disclaimer:
+          {
+            type: string,
+            example: Tendances descriptives sans interprétation médicale.,
+          }
+    QuestionnaireDraftInput:
+      type: object
+      additionalProperties: false
+      required: [locale, title, disclaimer, questions]
+      properties:
+        locale: { type: string, example: fr-FR }
+        title: { type: string, example: Questionnaire synthétique }
+        disclaimer:
+          { type: string, example: Brouillon fictif sans portée clinique. }
+        questions:
+          type: array
+          items: { type: object, additionalProperties: true }
+    RuleSetDraftInput:
+      type: object
+      additionalProperties: false
+      required: [input_schema_version, rules]
+      properties:
+        input_schema_version: { type: string, example: synthetic-v1 }
+        rules:
+          type: array
+          description: Expressions déclaratives utilisant uniquement des champs et opérateurs autorisés.
+          items:
+            type: object
+            additionalProperties: false
+            required:
+              [
+                code,
+                priority,
+                expression,
+                action,
+                reason_code,
+                explanation_template,
+              ]
+            properties:
+              code: { type: string, example: synthetic-rule-001 }
+              priority: { type: integer, example: 100 }
+              expression:
+                {
+                  type: object,
+                  additionalProperties: true,
+                  example: { operator: synthetic_operator },
+                }
+              action: { type: string, example: synthetic_action }
+              reason_code: { type: string, example: SYNTHETIC_REASON }
+              explanation_template:
+                { type: string, example: Explication synthétique. }
+    RuleSimulationInput:
+      type: object
+      additionalProperties: false
+      required: [data_classification, fixture]
+      properties:
+        data_classification: { type: string, const: synthetic }
+        fixture:
+          {
+            type: object,
+            additionalProperties: true,
+            example: { synthetic_field: synthetic_value },
+          }
+    PublicationInput:
+      type: object
+      additionalProperties: false
+      required: [validation_id, expected_content_hash]
+      properties:
+        validation_id: { $ref: "#/components/schemas/Uuid" }
+        expected_content_hash: { type: string, pattern: "^[a-f0-9]{64}$" }
+    ClinicalResourceVersion:
+      type: object
+      required: [id, version, status, content_hash, created_at]
+      properties:
+        id: { $ref: "#/components/schemas/Uuid" }
+        version: { type: integer, minimum: 1 }
+        status:
+          {
+            type: string,
+            enum: [draft, in_review, validated, published, retired, disabled],
+          }
+        content_hash: { type: string, pattern: "^[a-f0-9]{64}$" }
+        created_at: { type: string, format: date-time }
+        published_at: { type: [string, "null"], format: date-time }
+    InvalidField:
+      type: object
+      required: [field, code]
+      properties:
+        field: { type: string }
+        code: { type: string }
+    ErrorEnvelope:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, technical_message, invalid_fields, request_id]
+          properties:
+            code: { type: string, example: VALIDATION_FAILED }
+            user_message:
+              { type: string, example: Certaines informations sont invalides. }
+            technical_message:
+              { type: string, example: Request validation failed. }
+            invalid_fields:
+              {
+                type: array,
+                items: { $ref: "#/components/schemas/InvalidField" },
+              }
+            request_id:
+              {
+                type: string,
+                example: req_00000000-0000-7000-8000-000000000099,
+              }

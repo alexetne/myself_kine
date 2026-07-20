@@ -1,4 +1,5 @@
 import {
+  Inject,
   Injectable,
   OnApplicationShutdown,
   OnModuleInit,
@@ -10,7 +11,7 @@ import { Pool, PoolClient, QueryResult, QueryResultRow } from "pg";
 export class DatabaseService implements OnModuleInit, OnApplicationShutdown {
   private readonly pool: Pool;
 
-  constructor(config: ConfigService) {
+  constructor(@Inject(ConfigService) config: ConfigService) {
     this.pool = new Pool({
       connectionString: config.getOrThrow<string>("DATABASE_URL"),
       max: 10,

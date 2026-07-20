@@ -1,6 +1,7 @@
 import {
   CanActivate,
   ExecutionContext,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from "@nestjs/common";
@@ -16,7 +17,7 @@ export class AuthGuard implements CanActivate {
   private readonly jwks: ReturnType<typeof createRemoteJWKSet>;
 
   constructor(
-    config: ConfigService,
+    @Inject(ConfigService) config: ConfigService,
     private readonly database: DatabaseService,
   ) {
     this.issuer = config.getOrThrow("OIDC_ISSUER");

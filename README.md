@@ -28,10 +28,11 @@ Ne placez aucun secret réel dans `.env.example`, les fixtures ou les logs. Les 
 ## Vérifications
 
 ```bash
-npm test
-npm run build
-npm run openapi:generate
+npm ci --ignore-scripts --no-audit --no-fund
+make ci
 ```
+
+La correspondance détaillée entre contrôles locaux et GitHub Actions est décrite dans [`docs/ci-local.md`](docs/ci-local.md).
 
 ## Structure
 

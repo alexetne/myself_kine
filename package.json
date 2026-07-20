@@ -2,6 +2,14 @@
   "name": "myself-kine-api",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=22.0.0 <23",
+    "npm": ">=10.0.0 <11"
+  },
+  "files": [
+    "dist/",
+    "migrations/"
+  ],
   "description": "API sécurisée d'accompagnement renforcement et course",
   "license": "UNLICENSED",
   "scripts": {
@@ -12,8 +20,12 @@
     "test:watch": "jest --watch",
     "lint": "eslint \"{src,test}/**/*.ts\"",
     "format:check": "prettier --check \"{src,test}/**/*.ts\" \"docs/**/*.md\"",
+    "typecheck": "tsc --noEmit --incremental false",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run build",
+    "security:dependencies": "npm audit --audit-level=high",
+    "artifact:build": "npm run build && mkdir -p artifacts && npm pack --cache .npm-cache --pack-destination artifacts",
     "db:migrate": "tsx scripts/migrate.ts",
-    "openapi:generate": "tsx scripts/generate-openapi.ts"
+    "openapi:generate": "tsc -p tsconfig.openapi.json && node .openapi-build/scripts/generate-openapi.js"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.0",
