@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "incremental": false,
+    "rootDir": ".",
+    "outDir": ".openapi-build"
+  },
+  "include": ["src/**/*.ts", "scripts/generate-openapi.ts"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}

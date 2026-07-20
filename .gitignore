@@ -3,7 +3,11 @@
 .env.*
 !.env.example
 node_modules/
+.npm-cache/
 dist/
+artifacts/
+.openapi-build/
+openapi.generated.json
 coverage/
 .next/
 .turbo/
@@ -15,4 +19,3 @@ coverage/
 terraform.tfstate
 terraform.tfstate.*
 .terraform/
-

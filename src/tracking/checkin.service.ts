@@ -54,9 +54,7 @@ export class CheckinService {
         ],
       );
       const adaptation = this.engine.evaluate({
-        fatigue: dto.fatigue,
-        sleepQuality: dto.sleep_quality,
-        discomfort: dto.discomfort,
+        checkinId: inserted.rows[0].id,
       });
       const body = {
         ...inserted.rows[0],
