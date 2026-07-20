@@ -12,6 +12,7 @@ import { ProfileModule } from "./profile/profile.module";
 import { TrackingModule } from "./tracking/tracking.module";
 import { AdminModule } from "./admin/admin.module";
 import { ConsentModule } from "./consents/consent.module";
+import { QuestionnaireModule } from "./questionnaires/questionnaire.module";
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ConsentModule } from "./consents/consent.module";
     TrackingModule,
     AdminModule,
     ConsentModule,
+    QuestionnaireModule,
   ],
   controllers: [HealthController],
   providers: [{ provide: APP_GUARD, useClass: RolesGuard }],
