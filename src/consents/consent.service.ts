@@ -53,6 +53,9 @@ export class ConsentService {
     const body = { definition_id: definitionId, granted };
     const hash = this.hash(body);
     return this.database.transaction(async (client) => {
+      await client.query("SELECT pg_advisory_xact_lock(hashtext($1))", [
+        `${userId}:consent.record:${key}`,
+      ]);
       const known = await client.query<StoredIdempotency>(
         `SELECT request_hash, response_body FROM idempotency_record
          WHERE user_id=$1 AND operation='consent.record' AND key=$2 FOR UPDATE`,
@@ -77,7 +80,12 @@ export class ConsentService {
       await client.query(
         `INSERT INTO audit_event(actor_user_id, actor_type, action, resource_type, resource_id, outcome, request_id, context)
          VALUES ($1,'user','consent.recorded','consent_record',$2,'success',$3,$4)`,
-        [userId, response.id, requestId, { definition_id: definitionId, granted }],
+        [
+          userId,
+          response.id,
+          requestId,
+          { definition_id: definitionId, granted },
+        ],
       );
       await client.query(
         `INSERT INTO idempotency_record(user_id, operation, key, request_hash, response_status, response_body, expires_at)
@@ -97,6 +105,9 @@ export class ConsentService {
     this.requireKey(key);
     const hash = this.hash({ record_id: recordId });
     return this.database.transaction(async (client) => {
+      await client.query("SELECT pg_advisory_xact_lock(hashtext($1))", [
+        `${userId}:consent.withdraw:${key}`,
+      ]);
       const known = await client.query<StoredIdempotency>(
         `SELECT request_hash, response_body FROM idempotency_record
          WHERE user_id=$1 AND operation='consent.withdraw' AND key=$2 FOR UPDATE`,

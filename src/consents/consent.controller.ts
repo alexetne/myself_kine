@@ -65,11 +65,6 @@ export class ConsentController {
     @Headers("idempotency-key") key: string,
     @Param("recordId", ParseUUIDPipe) recordId: string,
   ) {
-    return this.consents.withdraw(
-      user.id,
-      request.requestId,
-      key,
-      recordId,
-    );
+    return this.consents.withdraw(user.id, request.requestId, key, recordId);
   }
 }

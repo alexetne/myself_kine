@@ -50,6 +50,24 @@ jobs:
     name: quality
     runs-on: ubuntu-24.04
     timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: myself_kine_test
+          POSTGRES_USER: myself_kine
+          POSTGRES_PASSWORD: synthetic-test-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U myself_kine -d myself_kine_test"
+          --health-interval 5s --health-timeout 3s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://myself_kine:synthetic-test-only@localhost:5432/myself_kine_test
+      NODE_ENV: test
+      OIDC_ISSUER: https://identity.invalid.example/
+      OIDC_AUDIENCE: myself-kine-api
+      OIDC_JWKS_URI: https://identity.invalid.example/.well-known/jwks.json
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -68,8 +86,17 @@ jobs:
         run: npm run lint
       - name: Type checking
         run: npm run typecheck
-      - name: Unit tests
+      - name: Apply test migrations
+        run: npm run db:migrate
+      - name: Unit and PostgreSQL HTTP tests
         run: npm test
+      - name: Generate OpenAPI without external services
+        env:
+          DATABASE_URL: ""
+          OIDC_ISSUER: ""
+          OIDC_AUDIENCE: ""
+          OIDC_JWKS_URI: ""
+        run: npm run openapi:generate
 
   dependencies:
     name: dependencies
