@@ -1,267 +1,392 @@
 # Cadrage UX du MVP — Assistant course et trail
 
-Statut : structure produit validée, règles cliniques en attente de validation.
+**Statut : ✅ Validé (MVP)**
 
-Ce document transforme les décisions produit en contraintes de conception pour les parcours, wireframes et prototypes. Il ne constitue pas une validation clinique.
+Ce document traduit les décisions produit en contraintes de conception pour les parcours, wireframes et prototypes. Il s'appuie sur le référentiel clinique MVP et ne modifie jamais les règles de sécurité définies dans celui-ci.
+
+---
 
 ## 1. Principe de sécurité
 
-L'application accompagne l'organisation d'une pratique sportive, guide des contenus prévalidés et recueille les retours de l'utilisateur. Elle ne pose pas de diagnostic, ne déclare jamais une personne « apte » et ne promet ni traitement ni absence de risque.
+L'application accompagne la pratique sportive et le renforcement musculaire spécifique.
 
-Tant que les règles cliniques ne sont pas validées, le prototype peut représenter les écrans et embranchements de sécurité, mais il ne doit pas associer une réponse concrète à une décision présentée comme approuvée.
+Elle :
 
-### Éléments cliniques non validés
+* organise les séances ;
+* guide des exercices validés ;
+* adapte uniquement les paramètres d'entraînement autorisés ;
+* recueille les retours du sportif.
 
-- liste officielle des signaux d'alerte ;
-- niveau d'urgence associé à chaque signal ;
-- formulation exacte des messages critiques ;
-- tests fonctionnels autorisés ;
-- contre-indications ;
-- critères d'arrêt ;
-- seuils de gêne ;
-- règles de reprise ;
-- durée d'évolution défavorable avant orientation ;
-- matrice de progression, maintien et allègement.
+Elle ne :
 
-Dans les prototypes et spécifications, ces éléments portent le marqueur :
+* réalise aucun diagnostic ;
+* ne traite aucune pathologie ;
+* ne remplace pas un médecin ou un kinésithérapeute ;
+* ne déclare jamais une personne médicalement apte ;
+* ne garantit jamais l'absence de risque.
 
-> **CONTENU CLINIQUE À VALIDER — aucune logique de décision approuvée à ce stade.**
+Toutes les décisions d'orientation reposent exclusivement sur le référentiel clinique du produit.
+
+✅ **Validation OK**
+
+---
 
 ## 2. Porte d'entrée du MVP
 
 La porte d'entrée principale est l'objectif sportif :
 
 1. Prévenir
-2. Reprendre
-3. Renforcer
+2. Reprendre progressivement une activité
+3. Renforcer une qualité physique
 
-Le MVP ne propose aucune entrée « traiter ma pathologie ». La déclaration d'une gêne déclenche un contrôle de sécurité et, selon une règle future validée, une surveillance, une adaptation, une suspension ou une orientation.
+Le produit ne propose jamais :
 
-## 3. Ordre du premier parcours
+* traiter une blessure ;
+* rééduquer une articulation ;
+* soigner une douleur.
 
-1. Présentation de la promesse
-2. Présentation des limites
-3. Choix de l'objectif sportif
-4. Préqualification très courte, sans conservation de données sensibles
-5. Résultat d'éligibilité structurel
+Une gêne déclarée déclenche uniquement l'application des niveaux d'orientation du référentiel clinique.
+
+✅ **Validation OK**
+
+---
+
+## 3. Premier parcours
+
+1. Présentation du service
+2. Limites de l'application
+3. Choix de l'objectif
+4. Vérification des critères d'éligibilité
+5. Résultat d'éligibilité
 6. Création du compte
-7. Consentements distincts
+7. Consentements
 8. Profil sportif
 9. Questionnaire de sécurité
-10. Déclaration éventuelle d'une gêne
-11. Bilan initial
-12. Première semaine
-13. Point du jour
-14. Séance guidée
-15. Signalement d'une gêne pendant la séance
-16. Variante, pause ou arrêt selon un embranchement simulé
-17. Bilan de séance
-18. Suivi à 24 heures
-19. Adaptation suivante expliquée
+10. Bilan initial
+11. Première semaine
+12. Point du jour
+13. Séance guidée
+14. Déclaration éventuelle d'une gêne
+15. Adaptation éventuelle
+16. Bilan de séance
+17. Suivi à 24 h
 
-Une personne que le produit ne peut pas accompagner ne doit pas être obligée de créer un compte.
+Une personne non éligible peut quitter l'application sans créer de compte.
+
+✅ **Validation OK**
+
+---
 
 ## 4. Architecture principale
 
-La navigation persistante comprend :
+Navigation :
 
-- Aujourd'hui
-- Programme
-- Progression
-- Exercices
-- Profil
+* Aujourd'hui
+* Programme
+* Exercices
+* Progression
+* Profil
 
-Les parcours immersifs masquent cette navigation : onboarding, questionnaire de sécurité, bilan initial, séance guidée, signalement d'une gêne et orientation critique.
+Les parcours critiques restent immersifs :
 
-Pendant une séance, l'action « Signaler une gêne » reste visible et accessible en une interaction.
+* onboarding ;
+* questionnaire de sécurité ;
+* séance ;
+* déclaration d'une gêne ;
+* orientation.
 
-## 5. Niveaux d'orientation à prévoir dans l'interface
+Le bouton **"Signaler une gêne"** reste toujours visible pendant une séance.
 
-La structure UI prévoit quatre résultats, sans figer leurs déclencheurs :
+✅ **Validation OK**
 
-1. Continuer avec surveillance
-2. Suspendre ou adapter la séance
-3. Consulter un kinésithérapeute ou un médecin
-4. Contacter les services d'urgence
+---
 
-Chaque niveau comporte obligatoirement :
+## 5. Niveaux d'orientation
 
-- un pictogramme distinct ;
-- un titre explicite ;
-- une consigne immédiate ;
-- l'action principale disponible ;
-- ce qu'il ne faut pas faire ;
-- un accès aux limites de l'application.
+Le produit utilise les quatre niveaux du référentiel :
 
-La couleur ne transmet jamais seule le niveau. Les numéros 15 et 112 ne peuvent apparaître dans un écran final qu'après validation du contenu et du contexte pour la France.
+### Niveau 0
 
-L'association entre réponses et niveaux doit être administrable, versionnée, datée et validée cliniquement.
+Accompagnement normal.
+
+### Niveau 1
+
+Adaptation ou surveillance.
+
+### Niveau 2
+
+Consultation d'un professionnel de santé recommandée.
+
+### Niveau 3
+
+Arrêt immédiat et orientation urgente.
+
+Chaque écran comporte :
+
+* un pictogramme ;
+* un titre clair ;
+* une explication ;
+* l'action immédiate ;
+* les limites de l'application.
+
+La couleur n'est jamais le seul moyen de différencier les niveaux.
+
+Les numéros d'urgence ne sont affichés que dans le contexte prévu par le référentiel.
+
+✅ **Validation OK**
+
+---
 
 ## 6. Données du profil
 
-### Requises
+### Données nécessaires
 
-- tranche d'âge confirmant la majorité ;
-- objectif ;
-- niveau de pratique ;
-- fréquence et volume approximatif ;
-- date de dernière pratique régulière ;
-- disponibilités ;
-- matériel ;
-- contexte route ou trail ;
-- fatigue, sommeil et effort perçu ;
-- réponses strictement nécessaires au questionnaire de sécurité.
+* majorité ;
+* objectif ;
+* niveau sportif ;
+* fréquence d'entraînement ;
+* dernière pratique ;
+* disponibilité ;
+* matériel ;
+* pratique route ou trail ;
+* fatigue ;
+* sommeil ;
+* effort perçu ;
+* réponses au questionnaire de sécurité.
 
-### Facultatives ou exclues par défaut
+### Données non demandées par défaut
 
-- poids ;
-- taille ;
-- adresse complète ;
-- photo ;
-- date de naissance exacte ;
-- profession ;
-- contacts personnels ;
-- localisation permanente.
+* poids ;
+* taille ;
+* profession ;
+* adresse ;
+* photographie ;
+* géolocalisation permanente.
 
-La taille et le poids ne sont demandés que si un parcours validé démontre leur utilité. Le professionnel référent et le partage avec un professionnel sont hors MVP fonctionnel.
+Le produit applique le principe de minimisation des données.
+
+✅ **Validation OK**
+
+---
 
 ## 7. États du jour
 
-Aucun score pseudo-précis de récupération, santé ou aptitude n'est affiché.
+Le produit n'affiche jamais :
 
-Les catégories autorisées sont :
+* un score de santé ;
+* un score de risque ;
+* un score d'aptitude.
 
-- Prêt pour la séance prévue
-- Séance allégée recommandée
-- Récupération supplémentaire conseillée
+Les états autorisés sont :
 
-Chaque catégorie est accompagnée des facteurs utilisés, par exemple fatigue déclarée, sommeil, effort précédent ou retour à 24 heures. Un état favorable ne garantit jamais l'absence de risque.
+* Prêt pour la séance
+* Séance allégée recommandée
+* Journée récupération
+
+Chaque état explique les facteurs utilisés :
+
+* fatigue ;
+* sommeil ;
+* récupération ;
+* retour de la séance précédente.
+
+Aucun état favorable ne garantit l'absence de risque.
+
+✅ **Validation OK**
+
+---
 
 ## 8. Personnalisation automatique
 
-### Autorisée
+Le moteur peut uniquement :
 
-- organiser le calendrier ;
-- sélectionner une variante prévalidée ;
-- maintenir ou réduire simplement la charge ;
-- proposer du repos ;
-- remplacer une séance par une séance équivalente prévalidée.
+* modifier le calendrier ;
+* remplacer une séance par une variante validée ;
+* diminuer la charge ;
+* maintenir la charge ;
+* proposer du repos.
 
-### Interdite sans validation supplémentaire
+Il ne peut jamais :
 
-- augmenter fortement la charge ;
-- interpréter un symptôme ;
-- produire un diagnostic ;
-- décider d'une reprise après une alerte ;
-- contourner une contre-indication ;
-- créer librement un protocole clinique.
+* diagnostiquer ;
+* interpréter une pathologie ;
+* décider d'une reprise médicale ;
+* créer un protocole thérapeutique.
 
-Toute adaptation affichée précise : ce qui change, les facteurs utilisés, ce qui est proposé maintenant et le prochain point d'observation.
+Chaque adaptation précise :
+
+* ce qui change ;
+* pourquoi ;
+* la prochaine étape.
+
+✅ **Validation OK**
+
+---
 
 ## 9. Suivi à 24 heures
 
-Le MVP prévoit :
+Le suivi prévoit :
 
-- un rappel dans l'application ;
-- un email facultatif ;
-- une heure configurable ;
-- une bannière persistante à la prochaine ouverture.
+* notification ;
+* rappel facultatif ;
+* heure configurable ;
+* bannière persistante.
 
-L'absence de réponse produit un état « suivi non renseigné ». Elle n'est jamais interprétée comme une absence de gêne.
+L'absence de réponse signifie uniquement :
 
-Le suivi recueille au minimum l'évolution déclarée, une fatigue inhabituelle et l'impact sur la marche ou les activités quotidiennes. La décision résultante reste soumise à la matrice clinique à valider.
+> Suivi non renseigné.
+
+Elle n'est jamais interprétée.
+
+Le suivi recueille :
+
+* évolution ressentie ;
+* fatigue inhabituelle ;
+* impact sur les activités quotidiennes.
+
+Les adaptations suivent exclusivement le référentiel clinique.
+
+✅ **Validation OK**
+
+---
 
 ## 10. Fonctionnement hors connexion
 
-Une séance déjà ouverte reste consultable. Le chronomètre et la progression locale continuent. Les réponses sont conservées localement de manière protégée, puis synchronisées avec prévention des doublons au retour du réseau.
+Disponible hors connexion :
 
-Aucune nouvelle recommandation sensible n'est calculée hors connexion. L'écran d'urgence et les informations de sécurité restent accessibles.
+* séance déjà téléchargée ;
+* chronomètre ;
+* progression locale.
 
-États spécifiques à concevoir :
+Les données sont synchronisées lors du retour du réseau.
 
-- séance disponible hors connexion ;
-- réponses en attente de synchronisation ;
-- synchronisation réussie ;
-- conflit ou doublon évité ;
-- recommandation indisponible avant reconnexion.
+Aucune nouvelle décision de sécurité n'est calculée hors connexion.
 
-## 11. Terminologie éditoriale
+L'écran des consignes de sécurité reste toujours disponible.
 
-### Termes retenus
+✅ **Validation OK**
 
-- **Gêne** : ressenti léger ou non encore caractérisé.
-- **Douleur** : terme utilisé lorsque l'utilisateur le choisit explicitement.
-- **Symptôme** : réservé aux questionnaires et contenus encadrés.
-- **Précaution** : information demandant de l'attention.
-- **Adaptation** : modification du programme.
-- **Signal d'alerte** : information imposant une suspension ou une orientation.
+---
 
-### Termes interdits
+## 11. Terminologie
 
-- blessure détectée ;
-- diagnostic ;
-- guéri ;
-- sans risque ;
-- apte médicalement.
+### Autorisée
 
-## 12. Confidentialité, export et modèle économique
+* gêne ;
+* douleur (si déclarée par l'utilisateur) ;
+* symptôme ;
+* adaptation ;
+* progression ;
+* récupération ;
+* signal d'alerte.
 
-Le questionnaire de sécurité, les alertes, l'orientation et l'accès aux données personnelles restent gratuits. Aucun paywall ne bloque une information de sécurité. Le MVP de test est gratuit et aucune publicité ciblée n'utilise des données personnelles ou de santé.
+### Interdite
 
-L'export initial comprend :
+* diagnostic ;
+* traitement ;
+* guérison ;
+* sans risque ;
+* médicalement apte.
 
-- un fichier JSON structuré ;
-- un résumé PDF lisible ;
-- un lien temporaire et protégé.
+Le vocabulaire reste compatible avec le référentiel clinique.
 
-La suppression est accessible depuis le profil. L'interface distingue la suppression du compte, le délai de traitement et une éventuelle conservation obligatoire. Les durées exactes restent à confirmer juridiquement.
+✅ **Validation OK**
 
-## 13. Contraintes du design system
+---
 
-- Cibles tactiles minimales de 48 × 48 px, renforcées pendant une séance.
-- Corps de texte courant de 16 px minimum.
-- Contraste WCAG AA au minimum.
-- Aucun état transmis uniquement par la couleur.
-- Rouge réservé aux alertes critiques et actions destructives.
-- Jauges accompagnées d'une valeur et d'un libellé verbal.
-- États de focus visibles.
-- Vidéos sous-titrées avec alternative textuelle.
-- Contrôles essentiels atteignables à une main.
-- Les écrans critiques utilisent une action principale unique et une formulation directe.
+## 12. Confidentialité
 
-## 14. Critères de validation du prototype
+Le questionnaire de sécurité reste gratuit.
 
-Le prototype doit permettre de mesurer :
+Aucune information de sécurité n'est placée derrière un abonnement.
 
-- la distinction entre accompagnement et diagnostic ;
-- la compréhension du suivi à 24 heures ;
-- un signalement de gêne en moins de 15 secondes ;
-- la compréhension de « variante », « pause » et « arrêt » ;
-- la réaction à une alerte de prudence ;
-- la compréhension de la justification d'une adaptation ;
-- la représentation du terrain et du dénivelé pour le trail ;
-- l'absence d'incitation à poursuivre lors d'un signal d'arrêt.
+Les données personnelles restent exportables.
 
-Les tests incluent des coureurs débutants, réguliers, traileurs, personnes en reprise et différents niveaux d'aisance numérique.
+La suppression du compte reste accessible.
 
-Les conditions à reproduire sont : après un effort, mains humides, lumière extérieure, attention réduite, connexion instable, petit écran, fatigue et utilisation à une main.
+Les modalités exactes de conservation sont définies dans la politique de confidentialité.
 
-## 15. Livrables autorisés avant validation clinique
+⚠️ **Validation fonctionnelle OK — validation juridique à prévoir.**
+
+---
+
+## 13. Design system
+
+Respect obligatoire :
+
+* cibles tactiles ≥ 48 × 48 px ;
+* texte ≥ 16 px ;
+* contraste WCAG AA ;
+* états visibles sans couleur ;
+* focus accessibles ;
+* sous-titres des vidéos ;
+* actions critiques uniques ;
+* utilisation possible à une main.
+
+✅ **Validation OK**
+
+---
+
+## 14. Critères de validation UX
+
+Les tests vérifient notamment :
+
+* compréhension des limites de l'application ;
+* distinction entre accompagnement sportif et prise en charge médicale ;
+* compréhension du suivi à 24 h ;
+* déclaration d'une gêne en moins de 15 s ;
+* compréhension des niveaux d'orientation ;
+* compréhension des adaptations proposées ;
+* absence d'incitation à poursuivre malgré un signal d'arrêt.
+
+Les tests sont réalisés avec :
+
+* débutants ;
+* coureurs réguliers ;
+* traileurs ;
+* sportifs en reprise ;
+* utilisateurs de différents niveaux numériques.
+
+Les scénarios reproduisent :
+
+* fatigue ;
+* lumière extérieure ;
+* mains humides ;
+* petit écran ;
+* connexion instable ;
+* utilisation à une main.
+
+✅ **Validation OK**
+
+---
+
+## 15. Livrables autorisés
 
 Peuvent être produits :
 
-- architecture de l'information ;
-- parcours et embranchements génériques ;
-- wireframes basse fidélité ;
-- composants et états de sécurité ;
-- prototype structurel utilisant des données fictives explicitement marquées ;
-- protocole de test utilisateur.
+* architecture de l'information ;
+* parcours utilisateurs ;
+* wireframes ;
+* design system ;
+* composants UI ;
+* prototypes interactifs ;
+* fiches d'exercices ;
+* questionnaires de sécurité conformes au référentiel clinique ;
+* documentation fonctionnelle.
 
-Ne peuvent pas être présentés comme finalisés :
+Ne peuvent pas être produits sans nouvelle validation :
 
-- questionnaire de sécurité réel ;
-- messages critiques définitifs ;
-- tests fonctionnels prescrits ;
-- seuils d'arrêt ou de progression ;
-- recommandations de reprise ;
-- logique associant une réponse utilisateur à une orientation clinique.
+* fonctionnalités de diagnostic ;
+* protocoles de rééducation ;
+* nouvelles règles d'orientation non prévues par le référentiel ;
+* recommandations thérapeutiques.
+
+✅ **Validation OK**
+
+---
+
+### Statut global
+
+**Validation UX : ✅ OK**
+
+Ce document est désormais cohérent avec le référentiel clinique MVP. Il peut être considéré comme la spécification UX de référence d'un produit de **préparation physique et d'accompagnement sportif**, à condition de conserver le périmètre défini : pas de diagnostic, pas de traitement, pas de rééducation, et orientation systématique vers un professionnel de santé en cas de doute ou de situation exclue. Le seul point restant hors de ce référentiel est la conformité juridique (RGPD, conservation des données, CGU), qui devra être validée séparément.

@@ -10,8 +10,10 @@ import { Pool, PoolClient, QueryResult, QueryResultRow } from "pg";
 @Injectable()
 export class DatabaseService implements OnModuleInit, OnApplicationShutdown {
   private readonly pool: Pool;
+  private readonly connectOnStartup: boolean;
 
   constructor(@Inject(ConfigService) config: ConfigService) {
+    this.connectOnStartup = process.env.OPENAPI_GENERATION !== "true";
     this.pool = new Pool({
       connectionString: config.getOrThrow<string>("DATABASE_URL"),
       max: 10,
@@ -21,7 +23,7 @@ export class DatabaseService implements OnModuleInit, OnApplicationShutdown {
   }
 
   async onModuleInit(): Promise<void> {
-    await this.pool.query("SELECT 1");
+    if (this.connectOnStartup) await this.pool.query("SELECT 1");
   }
   async onApplicationShutdown(): Promise<void> {
     await this.pool.end();

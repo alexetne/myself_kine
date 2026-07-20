@@ -22,6 +22,13 @@ class Environment {
 export function validateEnvironment(
   config: Record<string, unknown>,
 ): Environment {
+  if (config.OPENAPI_GENERATION === "true") {
+    config.DATABASE_URL ??= "postgresql://documentation.invalid/documentation";
+    config.OIDC_ISSUER ??= "https://identity.invalid.example/";
+    config.OIDC_AUDIENCE ??= "myself-kine-api";
+    config.OIDC_JWKS_URI ??=
+      "https://identity.invalid.example/.well-known/jwks.json";
+  }
   const value = plainToInstance(Environment, config, {
     enableImplicitConversion: false,
   });
