@@ -10,4 +10,3 @@ Toute migration suit expansion–migration–contraction et doit rester compatib
 6. Supprimer l'ancien schéma dans une publication ultérieure après preuve de non-utilisation.
 
 Un verrou applicatif empêche deux exécutions concurrentes. Les opérations bloquantes ou destructrices exigent estimation, sauvegarde/PITR vérifié, approbation backend et technique et procédure d'échec. Le rollback applicatif ne doit jamais tenter d'annuler aveuglément une migration de données ; il revient vers un binaire compatible ou désactive la fonction.
-

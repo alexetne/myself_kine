@@ -258,9 +258,4 @@ CREATE TABLE audit_event (
 REVOKE UPDATE, DELETE ON audit_event FROM PUBLIC;
 CREATE INDEX audit_resource_idx ON audit_event(resource_type, resource_id, occurred_at DESC);
 
-CREATE TABLE schema_migration (
-  version text PRIMARY KEY,
-  applied_at timestamptz NOT NULL DEFAULT now()
-);
-
 COMMIT;

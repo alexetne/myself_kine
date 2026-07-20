@@ -10,4 +10,3 @@ Déclencher l'arrêt de promotion pour échec de health check ou smoke test, hau
 - restauration de données uniquement sur décision d'incident, après analyse de la perte induite.
 
 Après rétablissement, consigner chronologie, impact, détection, décisions, actions et propriétaires. La revue est sans recherche de culpabilité. Un exercice trimestriel teste alternativement restauration et rollback.
-

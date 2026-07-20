@@ -18,13 +18,13 @@ Le workflow actuel est volontairement une fondation : il vérifie le dépôt, la
 
 ## Environnements
 
-| Environnement | Données | Déclenchement | Rétention |
-|---|---|---|---|
-| local | synthétiques | développeur | locale |
-| PR frontend | synthétiques, aucun secret sensible | PR éligible | fermeture + 24 h max |
-| développement | synthétiques | fusion dans `main` | permanent, petite taille |
-| staging | synthétiques représentatives | promotion automatique | permanent, proche production |
-| production | réelles et minimisées | double approbation | selon politique juridique |
+| Environnement | Données                             | Déclenchement         | Rétention                    |
+| ------------- | ----------------------------------- | --------------------- | ---------------------------- |
+| local         | synthétiques                        | développeur           | locale                       |
+| PR frontend   | synthétiques, aucun secret sensible | PR éligible           | fermeture + 24 h max         |
+| développement | synthétiques                        | fusion dans `main`    | permanent, petite taille     |
+| staging       | synthétiques représentatives        | promotion automatique | permanent, proche production |
+| production    | réelles et minimisées               | double approbation    | selon politique juridique    |
 
 Les comptes/projets, secrets, identités et états d'infrastructure sont séparés. La CI utilise OIDC et des droits temporaires limités au job et à l'environnement.
 

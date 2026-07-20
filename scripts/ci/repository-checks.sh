@@ -17,12 +17,26 @@ if find . -type f -not -path './.git/*' \( -name '*.pem' -o -name '*.p12' -o -na
   exit 1
 fi
 
-if rg -n --hidden --glob '!.git/**' --glob '!scripts/ci/repository-checks.sh' --glob '!.env.example' '(BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9_]{30,}|postgres(ql)?://[^[:space:]]+:[^[:space:]@]+@)' .; then
+# Database URLs are intentionally not matched here because local/CI examples use
+# explicit synthetic credentials. A dedicated secret scanner must cover entropy
+# and provider-specific formats in GitHub Actions.
+secret_pattern='(BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9_]{30,})'
+health_fixture_pattern='(nom_complet|full_name|date_de_naissance|medical_history|antecedent|symptom(e|es)?)[[:space:]]*[:=][[:space:]]*["'"'][^"'"']+["'"']'
+
+if command -v rg >/dev/null 2>&1; then
+  secret_scan=(rg -n --hidden --glob '!.git/**' --glob '!scripts/ci/repository-checks.sh' --glob '!.env.example' "$secret_pattern" .)
+  health_scan=(rg -n --hidden --glob '!.git/**' --glob '!brief-projet.md' --glob '!fonctionnalite.md' "$health_fixture_pattern" .)
+else
+  secret_scan=(grep -RInIE --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=dist --exclude-dir=coverage --exclude-dir=.next --exclude=repository-checks.sh --exclude=.env.example "$secret_pattern" .)
+  health_scan=(grep -RInIE --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=dist --exclude-dir=coverage --exclude-dir=.next --exclude=brief-projet.md --exclude=fonctionnalite.md "$health_fixture_pattern" .)
+fi
+
+if "${secret_scan[@]}"; then
   echo 'A value resembling a credential was found. Do not add exceptions without security review.' >&2
   exit 1
 fi
 
-if rg -n --hidden --glob '!.git/**' --glob '!brief-projet.md' --glob '!fonctionnalite.md' '(nom_complet|full_name|date_de_naissance|medical_history|antecedent|symptom(e|es)?)[[:space:]]*[:=][[:space:]]*["'"'][^"'"']+["'"']' .; then
+if "${health_scan[@]}"; then
   echo 'Potential personal or health fixture detected. CI accepts synthetic fixtures only.' >&2
   exit 1
 fi

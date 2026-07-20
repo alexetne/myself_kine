@@ -1,5 +1,5 @@
-import 'reflect-metadata';
-import { createApplication } from './bootstrap';
+import "reflect-metadata";
+import { createApplication } from "./bootstrap";
 
 async function bootstrap(): Promise<void> {
   const app = await createApplication();
